@@ -12,15 +12,13 @@
 
 import './App.css';
 import React, { Component } from 'react'
+import Blog from './component/Blog';
 
 const blogURL = 'https://6239ddb128bcd99f02763cfe.mockapi.io/blogs'
 // const blogData = await fetchblogData
 
 const fetchblogData = async () => {
-  const response = await fetch(blogURL,
-    {
-      method: "GET"
-    })
+  const response = await fetch(`${blogURL}`)
 
   const responseJSON = await response.json()
   return responseJSON
@@ -56,6 +54,12 @@ export class App extends Component {
     });
   };
 
+  editBlogPost = (e, id) => {
+    const newData = { ...this.state }
+    newData.blogs[id - 1].text = e.target.value
+    this.setState(newData)
+  }
+
   render() {
     return (
       <div className='app'>
@@ -63,23 +67,24 @@ export class App extends Component {
 
         <select onChange={this.handleCategorySelect}>3
           <option value={"All"}>All</option>
-          {this.state.blogs.map((blog, idx) => {
+          {this.state.blogs.map((blog) => {
             return (
-              <option key={`option-${idx}`} value={blog.author}>{blog.author}</option>
+              <option key={`option-${blog.id}`} value={blog.author}>{blog.author}</option>
             )
           })}
         </select>
 
         <div className='blogs'>
-          {this.state.blogs.map((post, idx) => {
+          {this.state.blogs.map((post) => {
             if (post.author === this.state.selectedAuthor || this.state.selectedAuthor === "All") {
               return <Blog
-                key={`blog-${idx}`}
+                key={`blog-${post.id}`}
+                id={post.id}
                 author={post.author}
                 createdAt={post.createdAt}
-                id={post.id}
                 text={post.text}
                 title={post.title}
+                edit={this.editBlogPost}
               />
             }
           })}
@@ -89,19 +94,3 @@ export class App extends Component {
   }
 }
 export default App
-
-// Blog Component
-function Blog(props) {
-
-  return <div className='blog'>
-    <h2>{props.title}</h2>
-    <h3>Posted By: {props.author}</h3>
-    <h3>Posted On: {props.createdAt}</h3>
-    <textarea
-      // disabled
-      className='blog__body'
-      value={props.text}
-    >
-    </textarea>
-  </div>
-}
