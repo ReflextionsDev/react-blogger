@@ -58,14 +58,16 @@ export class App extends Component {
       <div className='app'>
         <h1>React Blogger</h1>
 
-        <select onChange={this.handleCategorySelect}>3
-          <option value={"All"}>All</option>
-          {this.state.blogs.map((blog) => {
-            return (
-              <option key={`option-${blog.id}`} value={blog.author}>{blog.author}</option>
-            )
-          })}
-        </select>
+        <div>
+          <select onChange={this.handleCategorySelect}>3
+            <option value={"All"}>All</option>
+            {this.state.blogs.map((blog) => {
+              return (
+                <option key={`option-${blog.id}`} value={blog.author}>{blog.author}</option>
+              )
+            })}
+          </select>
+        </div>
 
         <div className='blogs'>
           {this.state.blogs.map((post) => {
@@ -82,9 +84,21 @@ export class App extends Component {
             }
           })}
         </div>
+
+        <Pages />
+
       </div>
     )
   }
+}
+
+function Pages(props) {
+  return (
+    <div>
+      <button>{`<`}</button>
+      <button>{`>`}</button>
+    </div>
+  )
 }
 
 export default App
