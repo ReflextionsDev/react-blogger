@@ -4,9 +4,12 @@ import React, { Component } from 'react'
 import Blog from './component/Blog';
 
 // API interactions
-const blogURL = 'https://6239ddb128bcd99f02763cfe.mockapi.io/blogs'
+const blogURL = 'https://6239ddb128bcd99f02763cfe.mockapi.io'
+const limit = 10
+const page = 2
+
 const fetchblogData = async () => {
-  const response = await fetch(`${blogURL}`)
+  const response = await fetch(`${blogURL}/blogs/?limit=${limit}&page=${page}`)
   const responseJSON = await response.json()
   return responseJSON
 }
@@ -16,15 +19,15 @@ export class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // blogs: [
-      //   {
-      //     author: "Darren Abbott",
-      //     createdAt: "2022-03-22T10:36:37.176Z",
-      //     id: "1",
-      //     text: "Iusto et in et. Nulla accusantium fugit. Et qui dolorem inventore soluta et veritatis. Aut ut aut non laudantium eveniet suscipit odit. Sapiente sint nihil nihil sit et molestias. In nisi omnis quas et sed aut minus aperiam ea.\n \rLaudantium quo quisquam quae. Et et quas officia perspiciatis iusto sunt sunt eaque. Quidem sit voluptas deserunt sequi magni.\n \rEst est facere cumque ipsam omnis animi. Voluptatem magnam officiis architecto possimus. Quia similique aut eos qui. Quasi quae sed aliquam.",
-      //     title: "dicta",
-      //   }
-      // ],
+      blogs: [
+        {
+          // author: "Darren Abbott",
+          // createdAt: "2022-03-22T10:36:37.176Z",
+          // id: "1",
+          // text: "Iusto et in et. Nulla accusantium fugit. Et qui dolorem inventore soluta et veritatis. Aut ut aut non laudantium eveniet suscipit odit. Sapiente sint nihil nihil sit et molestias. In nisi omnis quas et sed aut minus aperiam ea.\n \rLaudantium quo quisquam quae. Et et quas officia perspiciatis iusto sunt sunt eaque. Quidem sit voluptas deserunt sequi magni.\n \rEst est facere cumque ipsam omnis animi. Voluptatem magnam officiis architecto possimus. Quia similique aut eos qui. Quasi quae sed aliquam.",
+          // title: "dicta",
+        }
+      ],
       selectedAuthor: "All"
     }
   }
