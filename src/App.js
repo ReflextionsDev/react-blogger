@@ -39,38 +39,49 @@ export class App extends Component {
           text: "Iusto et in et. Nulla accusantium fugit. Et qui dolorem inventore soluta et veritatis. Aut ut aut non laudantium eveniet suscipit odit. Sapiente sint nihil nihil sit et molestias. In nisi omnis quas et sed aut minus aperiam ea.\n \rLaudantium quo quisquam quae. Et et quas officia perspiciatis iusto sunt sunt eaque. Quidem sit voluptas deserunt sequi magni.\n \rEst est facere cumque ipsam omnis animi. Voluptatem magnam officiis architecto possimus. Quia similique aut eos qui. Quasi quae sed aliquam.",
           title: "dicta",
         }
-      ]
+      ],
+      selectedAuthor: "All"
     }
   }
 
-  // componentDidMount
-
-  getBlog = async () => {
+  componentDidMount = async () => {
     const data = await fetchblogData()
-    console.log(data)
+    // console.log(data)
     this.setState({ blogs: data })
   }
+
+  handleCategorySelect = (e) => {
+    this.setState({
+      selectedAuthor: e.target.value,
+    });
+  };
 
   render() {
     return (
       <div className='app'>
         <h1>React Blogger</h1>
-        <button
-          name='fetchButton'
-          onClick={this.getBlog}>
-          Get Blogs
-        </button>
+
+        <select onChange={this.handleCategorySelect}>3
+          <option value={"All"}>All</option>
+          {this.state.blogs.map((blog, idx) => {
+            return (
+              <option key={`option-${idx}`} value={blog.author}>{blog.author}</option>
+            )
+          })}
+        </select>
 
         <div className='blogs'>
           {this.state.blogs.map((post, idx) => {
-            return <Blog
-              key={idx}
-              author={post.author}
-              createdAt={post.createdAt}
-              id={post.id}
-              text={post.text}
-              title={post.title}
-            />
+            if (post.author === this.state.selectedAuthor || this.state.selectedAuthor === "All") {
+              return <Blog
+                key={`blog-${idx}`}
+                author={post.author}
+                createdAt={post.createdAt}
+                id={post.id}
+                text={post.text}
+                title={post.title}
+              />
+            }
           })}
         </div>
       </div>
@@ -86,6 +97,11 @@ function Blog(props) {
     <h2>{props.title}</h2>
     <h3>Posted By: {props.author}</h3>
     <h3>Posted On: {props.createdAt}</h3>
-    <p>{props.text}</p>
+    <textarea
+      // disabled
+      className='blog__body'
+      value={props.text}
+    >
+    </textarea>
   </div>
 }

@@ -13,3 +13,8 @@
   border: 1px black solid;
   width: 23vw; 
 }
+
+.blog__body {
+  width: 90%;
+  height: 300px;
+}
